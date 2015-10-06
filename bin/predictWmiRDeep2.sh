@@ -91,7 +91,8 @@ do
 		        	$MIRBASE_HAIRPIN \
 		        	-z "#"$BASE"_pred" \
 		        	-P ) & 
-			
+		
+		#move up from the temp directory	
         	cd $RESULTS_DIR
 	done
 done
