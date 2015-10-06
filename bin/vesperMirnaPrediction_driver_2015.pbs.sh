@@ -44,4 +44,4 @@ wait
 echo "$JOB_NAME finished" | mailx -s "$JOB_NAME finished" 9034521885@txt.att.net
 
 sleep 10
-https://github.com/nealplatt/vesperMiRNAs.git
+
