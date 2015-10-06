@@ -17,7 +17,7 @@ bin/setVariables.sh
 #create the major subdirectories
 #bin/mkDirStructure.sh
 
-#-------------------------
+#------------------------
 # Get seq data and QC it.
 
 #-------------------------
