@@ -60,16 +60,14 @@ do
 			mkdir $TEMP_DIR			
 			cd $TEMP_DIR
 
-			#run mapper.pla and miRDeep2 consecutivley and in the background 
-			#  like so (mapper.pl; miRDeep2.pl) &
+			#run mapper.pla and miRDeep2 in the background 
 			#  this puts 13 jobs per mapping limit into the backround.  
 			#  See miRDeep2 documentation for information on paramters used
 			#  but major ones are
 			#  	-l : reads must be atleast 18bp long
 			#	-? : identical reads are collapsed
 			#	-r : reads are limited to $j mapping positions
-			#	reads are compared to the eFus miRNAs from miRBase
-        		( $MIRDEEP_DIR/mapper.pl \
+        		$MIRDEEP_DIR/mapper.pl \
                 		${BAT[$i]} \
                 		-e \
                 		-h \
@@ -81,7 +79,36 @@ do
                 		-r $j \
                 		-s $TEMP_DIR/$BASE"_mapperProcessed.fa" \
                 		-t $TEMP_DIR/$BASE"_mapperProcessed.arf" \
-                		-p ${GENOME[$i]}; \
+                		-p ${GENOME[$i]} &
+
+		#move up from the temp directory	
+        	cd $RESULTS_DIR
+	done
+done
+
+#wait for all jobs to end before quitting
+wait
+
+#now that all reads have been mapped.  predict miRNAs for each sample
+for j in 1 5 100 1000 10000 100000
+do
+
+	#for each mapping limit, predict on each bat
+	for (( i = 0; i < ${#BAT[@]}; i++))
+		do
+        
+			#generates a base for each sample to be used to organize results
+			#  for example eFus_834_T_R1_clipped.fq limited to 10 mapping positions
+			#  becomes eFus_834_T_10
+			BASE=$(basename ${BAT[$i]} _R1_clipped.fq)"_"$j
+
+			#create a directory based on the basename and cd into it
+        		TEMP_DIR=$RESULTS_DIR/$BASE
+			cd $TEMP_DIR
+			
+			#  See miRDeep2 documentation for information on paramters used
+			#  but major ones are
+			#	reads are compared to the eFus miRNAs from miRBase
            		miRDeep2.pl \
 		        	$TEMP_DIR/$BASE"_mapperProcessed.fa" \
 		        	${GENOME[$i]} \
@@ -98,4 +125,5 @@ do
 done
 
 #wait for all jobs to end before quitting
+
 wait
