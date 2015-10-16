@@ -55,17 +55,40 @@ while(<BED_INPUT_FILE>){
 #for each of the scaffolds with multiple miRNAs - see if the miRNAs records overlap e/o.
 foreach my $dupContigs (sort keys %multiples){
 	#print "$dupContigs\n";
+
+	$tempStart=undef;
+	$tempEnd=undef;
+
 	foreach my $miRNA_name (sort keys %{ $multiples{$dupContigs}}){
 		
-		print "$dupContigs\t";
-		print "$multiples{$dupContigs}{$miRNA_name}{start}\t";
-		print "$multiples{$dupContigs}{$miRNA_name}{end}\t";
-		print "$miRNA_name\t";
-		print "$multiples{$dupContigs}{$miRNA_name}{score}\t";
-		print "$multiples{$dupContigs}{$miRNA_name}{orient}\t";
-		print "$multiples{$dupContigs}{$miRNA_name}{start}\t";
-		print "$multiples{$dupContigs}{$miRNA_name}{end}\t";
-		print "$multiples{$dupContigs}{$miRNA_name}{color}\n";
+	
+		push @contigHits, [$multiples{$dupContigs}{$miRNA_name}{start}, $multiples{$dupContigs}{$miRNA_name}{end}, $multiples{$dupContigs}{$miRNA_name}{score},$multiples{$dupContigs}{$miRNA_name}{orient}, $multiples{$dupContigs}{$miRNA_name}{color}];
+
+		#!!!!!!!!!!!!!!!this has not been error checked !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!		
+	}
+
+	
+	
+	@sortedContigHits = sort {$a->[1] <=> $b->[1]} @contigHits;
+		#!!!!!!!!!!!!!!!this has not been error checked !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!				
+
+
+	#now iterate through to find overlapping miRNAs.
+		
+		
+
+
+
+
+		#print "$dupContigs\t";
+		#print "$multiples{$dupContigs}{$miRNA_name}{start}\t";
+		#print "$multiples{$dupContigs}{$miRNA_name}{end}\t";
+		#print "$miRNA_name\t";
+		#print "$multiples{$dupContigs}{$miRNA_name}{score}\t";
+		#print "$multiples{$dupContigs}{$miRNA_name}{orient}\t";
+		#print "$multiples{$dupContigs}{$miRNA_name}{start}\t";
+		#print "$multiples{$dupContigs}{$miRNA_name}{end}\t";
+		#print "$multiples{$dupContigs}{$miRNA_name}{color}\n";
 
 		
 	}
