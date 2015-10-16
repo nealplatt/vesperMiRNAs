@@ -50,10 +50,27 @@ while(<BED_INPUT_FILE>){
 }	
 
 #temporary test to see if data is stored properly
-print Dumper \%duplicates;	
+#print Dumper \%duplicates;	
 
 #for each of the scaffolds with multiple miRNAs - see if the miRNAs records overlap e/o.
+foreach my $dupContigs (sort keys %multiples){
+	#print "$dupContigs\n";
+	foreach my $miRNA_name (sort keys %{ $multiples{$dupContigs}}){
+		
+		print "$dupContigs\t";
+		print "$multiples{$dupContigs}{$miRNA_name}{start}\t";
+		print "$multiples{$dupContigs}{$miRNA_name}{end}\t";
+		print "$miRNA_name\t";
+		print "$multiples{$dupContigs}{$miRNA_name}{score}\t";
+		print "$multiples{$dupContigs}{$miRNA_name}{orient}\t";
+		print "$multiples{$dupContigs}{$miRNA_name}{start}\t";
+		print "$multiples{$dupContigs}{$miRNA_name}{end}\t";
+		print "$multiples{$dupContigs}{$miRNA_name}{color}\n";
 
+		
+	}
+
+}
 
 
 
