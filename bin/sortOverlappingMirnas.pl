@@ -56,21 +56,43 @@ while(<BED_INPUT_FILE>){
 foreach my $dupContigs (sort keys %multiples){
 	#print "$dupContigs\n";
 
-	$tempStart=undef;
-	$tempEnd=undef;
 
 	foreach my $miRNA_name (sort keys %{ $multiples{$dupContigs}}){
-		
 	
-		push @contigHits, [$multiples{$dupContigs}{$miRNA_name}{start}, $multiples{$dupContigs}{$miRNA_name}{end}, $multiples{$dupContigs}{$miRNA_name}{score},$multiples{$dupContigs}{$miRNA_name}{orient}, $multiples{$dupContigs}{$miRNA_name}{color}];
+		#instead of using the complex 3D hash, store as variables
+		$start=$multiples{$dupContigs}{$miRNA_name}{start};
+		$end=$multiples{$dupContigs}{$miRNA_name}{end};
+		$score=$multiples{$dupContigs}{$miRNA_name}{score};
+		$orient=$multiples{$dupContigs}{$miRNA_name}{orient};
+		$color=$multiples{$dupContigs}{$miRNA_name}{color};
+			
+		#put all of the metrics into an array of arrays to be sorted
+		push @contigHits, [$start, $end, $score, $orient, $color];
 
-		#!!!!!!!!!!!!!!!this has not been error checked !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!		
 	}
 
 	
-	
+	#sort all of the hits (per contig) based on start position
 	@sortedContigHits = sort {$a->[1] <=> $b->[1]} @contigHits;
+
+
+	#cycle through the array (sorted by start position) to find overlaps	
+	$i=0;
+	while( $i <= $#sortedContigHits ){
+
+
+
+
+		print "$dupContigs\t$sortedContigHits[$i][0]\t$sortedContigHits[$i][1]\t$miRNA_name\t$sortedContigHits[$i][2]\t$sortedContigHits[$i][3]$sortedContigHits[$i][0]\t$sortedContigHits[$i][1]\t$sortedContigHits[$i][4]\n";		
+		$i++;
+	}
 		#!!!!!!!!!!!!!!!this has not been error checked !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!				
+
+
+		
+}
+
+
 
 
 	#now iterate through to find overlapping miRNAs.
@@ -90,10 +112,7 @@ foreach my $dupContigs (sort keys %multiples){
 		#print "$multiples{$dupContigs}{$miRNA_name}{end}\t";
 		#print "$multiples{$dupContigs}{$miRNA_name}{color}\n";
 
-		
-	}
 
-}
 
 
 
