@@ -31,7 +31,7 @@ bin/setVariables.sh
 #bin/buildBowtieIndecies.sh
 
 #start the miRDeep2 prediction process
-bin/predictWmiRDeep2.sh
+#bin/predictWmiRDeep2.sh
 
 #mask each of the genomes for "Chiropteran" repeats
 #  This is necessary to create a bed file for post processing
