@@ -1,11 +1,11 @@
-# Identifying miRNAs in several Vespertilionid bats
+# Identifying miRNAs in vesper bats and other mammalian taxa
 NPlatt [www.batomics.com][batomics]
 
 David Ray Lab [www.davidraylab.com][raylab]
 
-6 Oct 2015
+17 Nov 2015
 
-This work build on a previous paper that described the relationship between DNA transposon expansion in Eptesicus fuscus and novel miRNA-like sequences that were derived from these miRNAs.  Here we expand on the work by further identifying miRNAs in other vespertilionid species and testing their relationship with transposable elements in general.  Some of the programs used to complete this work include:
+This work build on a previous [paper](http://mbe.oxfordjournals.org/content/31/6/1536) that described the relationship between DNA transposon expansion in *Eptesicus fuscus* and novel miRNA-like sequences that intersect with these putative miRNAs.  Here we expand on the work by further identifying miRNAs in other vespertilionid species and other mammalian species while testing the putative miRNA relationship with transposable elements in general.  Some of the programs used to complete this work include:
 * miRDeep2
 * bowtie
 * trimmomatic
