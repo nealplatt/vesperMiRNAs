@@ -57,7 +57,7 @@ THREADS=16
 #cat !(*cfa*|*hairpin*|*non*) >non_cfa_matureMirna.fa 
 #cat !(*bta*|*hairpin*|*non*) >non_bta_matureMirna.fa 
 #cat !(*mmu*|*hairpin*|*non*) >non_mmu_matureMirna.fa 
-#cat !(*equ*|*hairpin*|*non*) >non_equ_matureMirna.fa 
+#cat !(*equ*|*hairpin*|*non*) >non_eca_matureMirna.fa 
 #cat !(*ssu*|*hairpin*|*non*) >non_ssu_matureMirna.fa 
 #cat !(*ocu*|*hairpin*|*non*) >non_ocu_matureMirna.fa 
 
