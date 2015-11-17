@@ -1,7 +1,7 @@
 # Identifying miRNAs in vesper bats and other mammalian taxa
-NPlatt [www.batomics.com][batomics]
+NPlatt [www.batomics.com](www.batomics.com)
 
-David Ray Lab [www.davidraylab.com][raylab]
+David Ray Lab [www.davidraylab.com](www.davidraylab.com)
 
 17 Nov 2015
 
