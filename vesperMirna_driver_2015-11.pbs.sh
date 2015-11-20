@@ -6,7 +6,7 @@
 #$ -o $JOB_NAME.o$JOB_ID
 #$ -e $JOB_NAME.e$JOB_ID
 #$ -q Chewie
-#$ -pe fill 16
+#$ -pe fill 15
 #$ -P communitycluster
 
 HOME_DIR=/lustre/scratch/roplatt/vesperSmallRNAs
@@ -14,9 +14,10 @@ DATA_DIR=$HOME_DIR/data
 GENOMES_DIR=$DATA_DIR/genomes
 RAWDATA_DIR=$DATA_DIR/rawData
 
+BIN_DIR=$HOME_DIR/bin
 
 RESULTS_DIR=$HOME_DIR/results
-THREADS=16
+THREADS=15
 
 ################################################################################
 # Building bowtie indecies
@@ -50,19 +51,14 @@ THREADS=16
 #cd mirbaseMirnas
 #download all mammal miRNAs from miRBase v21 2015-11-17
 
-#shopt -s extglob
-
 #create non_<taxa> hairpin and mature mirna files
 #cat !(*efu*|*hairpin*|*non*) >non_efu_matureMirna.fa 
 #cat !(*cfa*|*hairpin*|*non*) >non_cfa_matureMirna.fa 
 #cat !(*bta*|*hairpin*|*non*) >non_bta_matureMirna.fa 
 #cat !(*mmu*|*hairpin*|*non*) >non_mmu_matureMirna.fa 
-#cat !(*equ*|*hairpin*|*non*) >non_eca_matureMirna.fa 
+#cat !(*equ*|*hairpin*|*non*) >non_equ_matureMirna.fa 
 #cat !(*ssu*|*hairpin*|*non*) >non_ssu_matureMirna.fa 
 #cat !(*ocu*|*hairpin*|*non*) >non_ocu_matureMirna.fa 
-
-#remove all white spaces (gives miRDeep2 errors)
-#sed -i 's/\s.*$//g' *.fa
 
 ################################################################################
 # qc raw data
@@ -184,8 +180,8 @@ BASE[14]=mYum_L
  MIRBASE[1]=cfa
  MIRBASE[2]=bta
  MIRBASE[3]=mmu
- MIRBASE[4]=eca
- MIRBASE[5]=eca
+ MIRBASE[4]=equ
+ MIRBASE[5]=equ
  MIRBASE[6]=ssu
  MIRBASE[7]=ocu
  MIRBASE[8]=mmu
@@ -197,43 +193,159 @@ BASE[14]=mYum_L
  MIRBASE[14]=efu
 
 
-for (( i = 0; i < ${#READS[@]}; i++))
-do
-        
-        TEMP_DIR=$RESULTS_DIR/mirnaPreds/${BASE[$i]}
-        mkdir $TEMP_DIR
-        cd $TEMP_DIR
+#for (( i = 0; i < ${#READS[@]}; i++))
+#do
+#        
+#        TEMP_DIR=$RESULTS_DIR/mirnaPreds/${BASE[$i]}
+#        mkdir $TEMP_DIR
+#        cd $TEMP_DIR
+#
+#       
+#        mapper.pl \
+#                ${READS[$i]} \
+#                -e \
+#                -h \
+#                -m \
+#                -j \
+#                -l 18 \
+#                -v \
+#                -n \
+#                -r 5 \
+#                -s $TEMP_DIR/${BASE[$i]}"_pos5_mapperProcessed.fa" \
+#                -t $TEMP_DIR/${BASE[$i]}"_pos5_mapperProcessed.arf" \
+#                -p ${GENOME[$i]} \
+#		 >${BASE[$i]}.mapper.log 2>&1 &
+#
+#
+#
+#      miRDeep2.pl \
+#               $TEMP_DIR/${BASE[$i]}"_pos5_mapperProcessed.fa" \
+#               ${GENOME[$i]} \
+#	        $TEMP_DIR/${BASE[$i]}"_pos5_mapperProcessed.arf" \
+#	        $DATA_DIR/mirbaseMirnas/${MIRBASE[$i]}"_matureMirna.fa" \
+#	        $DATA_DIR/mirbaseMirnas/"non_"${MIRBASE[$i]}"_matureMirna.fa" \
+#	        $DATA_DIR/mirbaseMirnas/${MIRBASE[$i]}"_hairpinMirna.fa" \
+#	        -z "#"${BASE[$i]}"_5pred" \
+#	        -P \
+#		>${BASE[$i]}.miRDeep2.log 2>&1 &
+#      
+#        cd ..
+#        
+#done
 
-       
-    (
-      mapper.pl \
-                ${READS[$i]} \
-                -e \
-                -h \
-                -m \
-                -j \
-                -l 18 \
-                -v \
-                -n \
-                -r 5 \
-                -s $TEMP_DIR/${BASE[$i]}"_pos5_mapperProcessed.fa" \
-                -t $TEMP_DIR/${BASE[$i]}"_pos5_mapperProcessed.arf" \
-                -p ${GENOME[$i]} \
-                >${BASE[$i]}.mapper.log 2>&1; \
-      miRDeep2.pl \
-                $TEMP_DIR/${BASE[$i]}"_pos5_mapperProcessed.fa" \
-                ${GENOME[$i]} \
-	        $TEMP_DIR/${BASE[$i]}"_pos5_mapperProcessed.arf" \
-	        $DATA_DIR/mirbaseMirnas/${MIRBASE[$i]}"_matureMirna.fa" \
-	        $DATA_DIR/mirbaseMirnas/"non_"${MIRBASE[$i]}"_matureMirna.fa" \
-	        $DATA_DIR/mirbaseMirnas/${MIRBASE[$i]}"_hairpinMirna.fa" \
-	        -z "#"${BASE[$i]}"_5pred" \
-	        -P \
-                >${BASE[$i]}.miRDeep2.log 2>&1
-      ) &
-        cd ..
-        
+
+
+#intersect TEs with miRNAs
+#cd $RESULTS_DIR
+
+#mkdir intersection
+#cd ./intersection
+
+#array with repeatmasker BED files
+ TE_BED[0]=$RESULTS_DIR/repeatMasker/canFam3_RM_TEs.bed
+ TE_BED[1]=$RESULTS_DIR/repeatMasker/felCat5_RM_TEs.bed
+ TE_BED[2]=$RESULTS_DIR/repeatMasker/bosTau8_RM_TEs.bed
+ TE_BED[3]=$RESULTS_DIR/repeatMasker/dipOrd1_RM_TEs.bed
+ TE_BED[4]=$RESULTS_DIR/repeatMasker/eriEur2_RM_TEs.bed
+ TE_BED[5]=$RESULTS_DIR/repeatMasker/equCab2_RM_TEs.bed
+ TE_BED[6]=$RESULTS_DIR/repeatMasker/susScr3_RM_TEs.bed
+ TE_BED[7]=$RESULTS_DIR/repeatMasker/oryCun2_RM_TEs.bed
+ TE_BED[8]=$RESULTS_DIR/repeatMasker/speTri2_RM_TEs.bed
+ TE_BED[9]=$RESULTS_DIR/repeatMasker/eptFus1_RM_TEs.bed
+TE_BED[10]=$RESULTS_DIR/repeatMasker/eptFus1_RM_TEs.bed
+TE_BED[11]=$RESULTS_DIR/repeatMasker/myoLuc2_RM_TEs.bed
+TE_BED[12]=$RESULTS_DIR/repeatMasker/myoLuc2_RM_TEs.bed
+TE_BED[13]=$RESULTS_DIR/repeatMasker/myoLuc2_RM_TEs.bed
+TE_BED[14]=$RESULTS_DIR/repeatMasker/myoLuc2_RM_TEs.bed
+
+#array with mirna prediction files
+ MIRNA_BED[0]=$RESULTS_DIR/mirnaPreds/cFam_T/result_*5pred.bed
+ MIRNA_BED[1]=$RESULTS_DIR/mirnaPreds/fCat_T/result_*5pred.bed
+ MIRNA_BED[2]=$RESULTS_DIR/mirnaPreds/bTau_T/result_*5pred.bed
+ MIRNA_BED[3]=$RESULTS_DIR/mirnaPreds/dOrd_T/result_*5pred.bed
+ MIRNA_BED[4]=$RESULTS_DIR/mirnaPreds/eEur_T/result_*5pred.bed
+ MIRNA_BED[5]=$RESULTS_DIR/mirnaPreds/eCab_T/result_*5pred.bed
+ MIRNA_BED[6]=$RESULTS_DIR/mirnaPreds/sScr_T/result_*5pred.bed
+ MIRNA_BED[7]=$RESULTS_DIR/mirnaPreds/oCun_T/result_*5pred.bed
+ MIRNA_BED[8]=$RESULTS_DIR/mirnaPreds/sTri_T/result_*5pred.bed
+ MIRNA_BED[9]=$RESULTS_DIR/mirnaPreds/aPal_T/result_*5pred.bed
+MIRNA_BED[10]=$RESULTS_DIR/mirnaPreds/eFus_T/result_*5pred.bed
+MIRNA_BED[11]=$RESULTS_DIR/mirnaPreds/mOcc_L/result_*5pred.bed
+MIRNA_BED[12]=$RESULTS_DIR/mirnaPreds/mOcc_T/result_*5pred.bed
+MIRNA_BED[13]=$RESULTS_DIR/mirnaPreds/mYum_T/result_*5pred.bed
+MIRNA_BED[14]=$RESULTS_DIR/mirnaPreds/mYum_L/result_*5pred.bed
+
+
+#for (( i = 0; i < ${#MIRNA_BED[@]}; i++))
+#    do	 
+#
+#    bedtools intersect \
+#	-wao \
+#	-a ${MIRNA_BED[$i]} \
+#	-b ${TE_BED[$i]} \
+#	>${BASE[$i]}"_TEvsMirnaInter.bed" &
+#    done
+#
+cd $RESULTS_DIR
+#
+#mkdir reShuffle
+cd reShuffle
+
+
+
+#create a tab delimited file of contig lengths for each genome
+#for i in $(ls $GENOMES_DIR)
+#do
+#	ABBREV=$(basename $i .fa)
+#	echo $ABBREV $i
+#
+#	perl $BIN_DIR/contigLengths.pl \
+#		--genome $GENOMES_DIR/$i \
+#		--output $ABBREV"_contigLengths.tab" &
+#
+#done
+
+ CONTIG_LENGTHS[0]=$RESULTS_DIR/reShuffle/canFam3_contigLengths.tab
+ CONTIG_LENGTHS[1]=$RESULTS_DIR/reShuffle/felCat5_contigLengths.tab
+ CONTIG_LENGTHS[2]=$RESULTS_DIR/reShuffle/bosTau8_contigLengths.tab
+ CONTIG_LENGTHS[3]=$RESULTS_DIR/reShuffle/dipOrd1_contigLengths.tab
+ CONTIG_LENGTHS[4]=$RESULTS_DIR/reShuffle/eriEur2_contigLengths.tab
+ CONTIG_LENGTHS[5]=$RESULTS_DIR/reShuffle/equCab2_contigLengths.tab
+ CONTIG_LENGTHS[6]=$RESULTS_DIR/reShuffle/susScr3_contigLengths.tab
+ CONTIG_LENGTHS[7]=$RESULTS_DIR/reShuffle/oryCun2_contigLengths.tab
+ CONTIG_LENGTHS[8]=$RESULTS_DIR/reShuffle/speTri2_contigLengths.tab
+ CONTIG_LENGTHS[9]=$RESULTS_DIR/reShuffle/eptFus1_contigLengths.tab
+CONTIG_LENGTHS[10]=$RESULTS_DIR/reShuffle/eptFus1_contigLengths.tab
+CONTIG_LENGTHS[11]=$RESULTS_DIR/reShuffle/myoLuc2_contigLengths.tab
+CONTIG_LENGTHS[12]=$RESULTS_DIR/reShuffle/myoLuc2_contigLengths.tab
+CONTIG_LENGTHS[13]=$RESULTS_DIR/reShuffle/myoLuc2_contigLengths.tab
+CONTIG_LENGTHS[14]=$RESULTS_DIR/reShuffle/myoLuc2_contigLengths.tab
+
+# reshuffle/intersect 1K times
+REPLICATES=1000;
+
+#for each species 
+for (( i = 0; i < ${#MIRNA_BED[@]}; i++))
+do
+
+    #run X replicates
+    for j in $(seq 1 $REPLICATES)
+        do
+
+          
+            #create a random interval similar to miRNAs, intersect wtih TEs, then count
+            bedtools shuffle \
+                -i ${MIRNA_BED[$i]} \
+                -g ${CONTIG_LENGTHS[$i]} \
+                | bedtools intersect \
+                        -wao \
+                        -a - \
+                        -b ${TE_BED[$i]} \
+                                > intersect.${BASE[$i]}.$j
+            done &
+
 done
 
-wait
+#calc percentage intersecting TEs
+
 
