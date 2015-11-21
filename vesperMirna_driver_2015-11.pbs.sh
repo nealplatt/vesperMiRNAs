@@ -347,10 +347,11 @@ do
 done
 
 mkdir vsTEs
-mkdir vsDNA
-mkdir vsHAT
-mkdir vsHelitron
+mkdir vsDNAs
+mkdir vsHATs
+mkdir vsHelitrons
 mkdir vsBAR1_ML
+
 
 #calc percentage intersecting TEs
 for (( i = 0; i < ${#MIRNA_BED[@]}; i++))
@@ -359,12 +360,98 @@ do
         do
 
            MIRNA_COUNT=$(wc -l ${MIRNA_BED[$i]} | cut -f1 -d" ");
-            cut -f13 intersect.${BASE[$i]}.$j \
+            cut -f13 ../intersect.${BASE[$i]}.$j \
                 | grep "\." \
                 | wc -l \
                 | awk -v total=$MIRNA_COUNT '{print 1-($0/total)}' \
-                >>vsDNA/${BASE[$i]}.1KsampleTEpercents.txt 
+                >>${BASE[$i]}.1KsampleTEpercents.txt 
         done &
 
 done
 
+
+
+
+#calc percentage intersecting BAR1_ML
+for (( i = 0; i < ${#MIRNA_BED[@]}; i++))
+do
+    for j in $(seq 1 $REPLICATES)
+        do
+
+           MIRNA_COUNT=$(wc -l ${MIRNA_BED[$i]} | cut -f1 -d" ");
+            cut -f13 intersect.${BASE[$i]}.$j \
+                | grep "BAR1_ML" \
+                | wc -l \
+                | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
+                >>vsBAR1_ML/${BASE[$i]}.1KsampleTEpercents.txt 
+        done &
+
+done
+
+
+
+#calc percentage intersecting helitrons
+for (( i = 0; i < ${#MIRNA_BED[@]}; i++))
+do
+    for j in $(seq 1 $REPLICATES)
+        do
+
+           MIRNA_COUNT=$(wc -l ${MIRNA_BED[$i]} | cut -f1 -d" ");
+            cut -f13 intersect.${BASE[$i]}.$j \
+                | grep -i "helitron" \
+                | wc -l \
+                | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
+                >>vsHelitron/${BASE[$i]}.1KsampleTEpercents.txt 
+        done &
+
+done
+
+
+#calc percentage intersecting dna transposons
+for (( i = 0; i < ${#MIRNA_BED[@]}; i++))
+do
+    for j in $(seq 1 $REPLICATES)
+        do
+
+           MIRNA_COUNT=$(wc -l ${MIRNA_BED[$i]} | cut -f1 -d" ");
+            cut -f13 intersect.${BASE[$i]}.$j \
+                | grep -i "helitron\|dna" \
+                | wc -l \
+                | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
+                >>vsDNAs/${BASE[$i]}.1KsampleTEpercents.txt 
+        done &
+
+done
+
+#calc percentage intersecting hats
+for (( i = 0; i < ${#MIRNA_BED[@]}; i++))
+do
+    for j in $(seq 1 $REPLICATES)
+        do
+
+           MIRNA_COUNT=$(wc -l ${MIRNA_BED[$i]} | cut -f1 -d" ");
+            cut -f13 intersect.${BASE[$i]}.$j \
+                | grep -i "hat" \
+                | wc -l \
+                | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
+                >>vsHATs/${BASE[$i]}.1KsampleTEpercents.txt 
+        done &
+
+done
+
+echo "aPal\tbTau\tcFam\tdOrd\teCab\teEur\teFus\tfCat\tmOcc_L\tmOcc_t\tmYum_L\tmYum_T\toCun\tsScr\tsStr" >vsTEs/vsTEs.tab
+paste vsTEs/*1KsampleTEpercents.txt >>vsTEs/vsTEs.tab
+
+
+echo "aPal\tbTau\tcFam\tdOrd\teCab\teEur\teFus\tfCat\tmOcc_L\tmOcc_t\tmYum_L\tmYum_T\toCun\tsScr\tsStr" >vsBAR1_M/vsBAR1_ML.tab
+paste vsBAR1_M/*1KsampleTEpercents.txt >>vsBAR1_M/vsBAR1_ML.tab
+
+
+echo "aPal\tbTau\tcFam\tdOrd\teCab\teEur\teFus\tfCat\tmOcc_L\tmOcc_t\tmYum_L\tmYum_T\toCun\tsScr\tsStr" >vsHelitrons/vsHelitrons.tab
+paste vsHelitrons/*1KsampleTEpercents.txt >>vsHelitrons/vsHelitrons.tab
+
+echo "aPal\tbTau\tcFam\tdOrd\teCab\teEur\teFus\tfCat\tmOcc_L\tmOcc_t\tmYum_L\tmYum_T\toCun\tsScr\tsStr" >vsDNAs/vsDNAs.tab
+paste vsTEs/*1KsampleTEpercents.txt >>vsDNAs/vsDNAs.tab
+
+echo "aPal\tbTau\tcFam\tdOrd\teCab\teEur\teFus\tfCat\tmOcc_L\tmOcc_t\tmYum_L\tmYum_T\toCun\tsScr\tsStr" >vsHATs/vsHATs.tab
+paste vsTEs/*1KsampleTEpercents.txt >>vsHATs/vsHATs.tab
