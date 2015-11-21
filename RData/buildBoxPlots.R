@@ -48,6 +48,8 @@ dev.off()
 #plot vs BAR1_ML
 svg("vsBAR1.svg", width=7, height=7)
   boxplot(vsBAR1Sim, range=0, las=2, ylim=c(0,0.05))
-  title(main="vs hATs")
+  title(main="vs BAR1_ML")
   points(vsBAR1Act, col="red", pch=19)
 dev.off()
+
+vsBAR1Act$v2

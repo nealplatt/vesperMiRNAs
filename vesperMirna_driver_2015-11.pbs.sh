@@ -130,7 +130,6 @@ cd $RESULTS_DIR/mirnaPreds
  READS[6]=$RESULTS_DIR/qcSeqData/pig_T_QC.fq
  READS[7]=$RESULTS_DIR/qcSeqData/rabbit_T_QC.fq
  READS[8]=$RESULTS_DIR/qcSeqData/squirrel_T_QC.fq
-#bats
  READS[9]=$RESULTS_DIR/qcSeqData/aPal_T_QC.fq
 READS[10]=$RESULTS_DIR/qcSeqData/eFus_T_QC.fq
 READS[11]=$RESULTS_DIR/qcSeqData/mOcc_L_QC.fq
@@ -148,7 +147,6 @@ READS[14]=$RESULTS_DIR/qcSeqData/mYum_L_QC.fq
  GENOME[6]=$RESULTS_DIR/bowtieIndecies/susScr3.fa
  GENOME[7]=$RESULTS_DIR/bowtieIndecies/oryCun2.fa
  GENOME[8]=$RESULTS_DIR/bowtieIndecies/speTri2.fa
-#bats
  GENOME[9]=$RESULTS_DIR/bowtieIndecies/eptFus1.fa
 GENOME[10]=$RESULTS_DIR/bowtieIndecies/eptFus1.fa
 GENOME[11]=$RESULTS_DIR/bowtieIndecies/myoLuc2.fa
@@ -167,7 +165,6 @@ GENOME[14]=$RESULTS_DIR/bowtieIndecies/myoLuc2.fa
  BASE[6]=sScr_T
  BASE[7]=oCun_T 
  BASE[8]=sTri_T   
-#bats
  BASE[9]=aPal_T
 BASE[10]=eFus_T
 BASE[11]=mOcc_L
@@ -292,47 +289,72 @@ MIRNA_BED[14]=$RESULTS_DIR/mirnaPreds/mYum_L/result_*5pred.bed
 #calc percentage intersecting BAR1_ML
 
 
+PHYLO_ORDER_BASE[0]=mOcc_L  
+PHYLO_ORDER_BASE[1]=mOcc_T
+PHYLO_ORDER_BASE[2]=mYum_L
+PHYLO_ORDER_BASE[3]=mYum_T 
+PHYLO_ORDER_BASE[4]=eFus_T 
+PHYLO_ORDER_BASE[5]=aPal_T
+PHYLO_ORDER_BASE[6]=bTau_T
+PHYLO_ORDER_BASE[7]=cFam_T 
+PHYLO_ORDER_BASE[8]=fCat_T   
+PHYLO_ORDER_BASE[9]=eCab_T
+PHYLO_ORDER_BASE[10]=sScr_T
+PHYLO_ORDER_BASE[11]=eEur_T
+PHYLO_ORDER_BASE[12]=dOrd_T
+PHYLO_ORDER_BASE[13]=sTri_T
+PHYLO_ORDER_BASE[14]=oCun_T
 
-for (( i = 0; i < ${#BASE[@]}; i++))
+rm BAR1_ML_ActualTEpercents.txt helitron_ActualTEpercents.txt hAT_ActualTEpercents.txt TE_ActualTEpercents.txt DNA_ActualTEpercents.txt
+ 
+
+for (( i = 0; i < ${#PHYLO_ORDER_BASE[@]}; i++))
 do
-    printf "${BASE[$i]}\t">>BAR1_ML_ActualTEpercents.txt 
-    printf "${BASE[$i]}\t">>DNA_ActualTEpercents.txt 
-    printf "${BASE[$i]}\t">>TE_ActualTEpercents.txt 
-    printf "${BASE[$i]}\t">>hAT_ActualTEpercents.txt 
-    printf "${BASE[$i]}\t">>helitron_ActualTEpercents.txt 
+    #printf "${PHYLO_ORDER_BASE[$i]}\t">>BAR1_ML_ActualTEpercents.txt 
+    #printf "${PHYLO_ORDER_BASE[$i]}\t">>DNA_ActualTEpercents.txt 
+    #printf "${PHYLO_ORDER_BASE[$i]}\t">>TE_ActualTEpercents.txt 
+    #printf "${PHYLO_ORDER_BASE[$i]}\t">>hAT_ActualTEpercents.txt 
+    #printf "${PHYLO_ORDER_BASE[$i]}\t">>helitron_ActualTEpercents.txt 
 
     
     MIRNA_COUNT=$(wc -l ${MIRNA_BED[$i]} | cut -f1 -d" ");
             
-    cut -f13 ${BASE[$i]}"_TEvsMirnaInter.bed" \
+    cut -f13 ${PHYLO_ORDER_BASE[$i]}"_TEvsMirnaInter.bed" \
         | grep -i "BAR1_ML" \
         | wc -l \
         | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
         >>BAR1_ML_ActualTEpercents.txt 
       
-    cut -f13 ${BASE[$i]}"_TEvsMirnaInter.bed" \
+    cut -f13 ${PHYLO_ORDER_BASE[$i]}"_TEvsMirnaInter.bed" \
         | grep -i "DNA" \
         | wc -l \
         | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
         >>DNA_ActualTEpercents.txt 
 
-    cut -f13 ${BASE[$i]}"_TEvsMirnaInter.bed" \
+    cut -f13 ${PHYLO_ORDER_BASE[$i]}"_TEvsMirnaInter.bed" \
         | grep  -v "\." \
         | wc -l \
         | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
         >>TE_ActualTEpercents.txt 
 
-    cut -f13 ${BASE[$i]}"_TEvsMirnaInter.bed" \
+    cut -f13 ${PHYLO_ORDER_BASE[$i]}"_TEvsMirnaInter.bed" \
         | grep -i "hat" \
         | wc -l \
         | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
         >>hAT_ActualTEpercents.txt 
 
-    cut -f13 ${BASE[$i]}"_TEvsMirnaInter.bed" \
+    cut -f13 ${PHYLO_ORDER_BASE[$i]}"_TEvsMirnaInter.bed" \
         | grep -i "helitron\|helibat" \
         | wc -l \
         | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
         >>helitron_ActualTEpercents.txt 
+
+done
+
+for (( i = 0; i < ${#PHYLO_ORDER_BASE[@]}; i++))
+do
+    echo ${PHYLO_ORDER_BASE[$i]}"_TEvsMirnaInter.bed"
+   
 
 done
 
@@ -568,7 +590,7 @@ paste vsDNAs/mOcc_L.1KsampleTEpercents.txt \
     >>vsDNAs/vsDNAs.tab
 
 echo -e "mOcc_L\tmOcc_t\tmYum_L\tmYum_T\teFus\taPal\tbTau\tcFam\tfCat\teCab\tsScr\teEur\tdOrd\tsStr\toCun" >vsHATs/vsHATs.tab
-paste vsTEs/mOcc_L.1KsampleTEpercents.txt \
+paste vsHATs/mOcc_L.1KsampleTEpercents.txt \
     vsHATs/mOcc_T.1KsampleTEpercents.txt \
     vsHATs/mYum_L.1KsampleTEpercents.txt \
     vsHATs/mYum_T.1KsampleTEpercents.txt \
