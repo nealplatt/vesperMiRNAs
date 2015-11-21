@@ -439,22 +439,98 @@ do
 
 done
 
-echo "aPal\tbTau\tcFam\tdOrd\teCab\teEur\teFus\tfCat\tmOcc_L\tmOcc_t\tmYum_L\tmYum_T\toCun\tsScr\tsStr" >vsTEs/vsTEs.tab
-paste vsTEs/*1KsampleTEpercents.txt >>vsTEs/vsTEs.tab
+echo -e "mOcc_L\tmOcc_t\tmYum_L\tmYum_T\teFus\taPal\tbTau\tcFam\tfCat\teCab\tsScr\teEur\tdOrd\tsStr\toCun" >vsTEs/vsTEs.tab
+
+paste vsTEs/mOcc_L.1KsampleTEpercents.txt \
+    vsTEs/mOcc_T.1KsampleTEpercents.txt \
+    vsTEs/mYum_L.1KsampleTEpercents.txt \
+    vsTEs/mYum_T.1KsampleTEpercents.txt \
+    vsTEs/eFus_T.1KsampleTEpercents.txt \
+    vsTEs/aPal_T.1KsampleTEpercents.txt \
+    vsTEs/bTau_T.1KsampleTEpercents.txt \
+    vsTEs/cFam_T.1KsampleTEpercents.txt \
+    vsTEs/fCat_T.1KsampleTEpercents.txt \
+    vsTEs/eCab_T.1KsampleTEpercents.txt \
+    vsTEs/sScr_T.1KsampleTEpercents.txt \
+    vsTEs/eEur_T.1KsampleTEpercents.txt \
+    vsTEs/dOrd_T.1KsampleTEpercents.txt \
+    vsTEs/sTri_T.1KsampleTEpercents.txt \
+    vsTEs/oCun_T.1KsampleTEpercents.txt \
+    >>vsTEs/vsTEs.tab
 
 
-echo "aPal\tbTau\tcFam\tdOrd\teCab\teEur\teFus\tfCat\tmOcc_L\tmOcc_t\tmYum_L\tmYum_T\toCun\tsScr\tsStr" >vsBAR1_M/vsBAR1_ML.tab
-paste vsBAR1_M/*1KsampleTEpercents.txt >>vsBAR1_M/vsBAR1_ML.tab
+echo -e "mOcc_L\tmOcc_t\tmYum_L\tmYum_T\teFus\taPal\tbTau\tcFam\tfCat\teCab\tsScr\teEur\tdOrd\tsStr\toCun" >vsBAR1_ML/vsBAR1_ML.tab
+paste vsBAR1_ML/mOcc_L.1KsampleTEpercents.txt \
+    vsBAR1_ML/mOcc_T.1KsampleTEpercents.txt \
+    vsBAR1_ML/mYum_L.1KsampleTEpercents.txt \
+    vsBAR1_ML/mYum_T.1KsampleTEpercents.txt \
+    vsBAR1_ML/eFus_T.1KsampleTEpercents.txt \
+    vsBAR1_ML/aPal_T.1KsampleTEpercents.txt \
+    vsBAR1_ML/bTau_T.1KsampleTEpercents.txt \
+    vsBAR1_ML/cFam_T.1KsampleTEpercents.txt \
+    vsBAR1_ML/fCat_T.1KsampleTEpercents.txt \
+    vsBAR1_ML/eCab_T.1KsampleTEpercents.txt \
+    vsBAR1_ML/sScr_T.1KsampleTEpercents.txt \
+    vsBAR1_ML/eEur_T.1KsampleTEpercents.txt \
+    vsBAR1_ML/dOrd_T.1KsampleTEpercents.txt \
+    vsBAR1_ML/sTri_T.1KsampleTEpercents.txt \
+    vsBAR1_ML/oCun_T.1KsampleTEpercents.txt \
+    >>vsBAR1_ML/vsBAR1_ML.tab
 
 
-echo "aPal\tbTau\tcFam\tdOrd\teCab\teEur\teFus\tfCat\tmOcc_L\tmOcc_t\tmYum_L\tmYum_T\toCun\tsScr\tsStr" >vsHelitrons/vsHelitrons.tab
-paste vsHelitrons/*1KsampleTEpercents.txt >>vsHelitrons/vsHelitrons.tab
+echo -e "mOcc_L\tmOcc_t\tmYum_L\tmYum_T\teFus\taPal\tbTau\tcFam\tfCat\teCab\tsScr\teEur\tdOrd\tsStr\toCun" >vsHelitrons/vsHelitrons.tab
+paste vsHelitrons/mOcc_L.1KsampleTEpercents.txt \
+    vsHelitrons/mOcc_T.1KsampleTEpercents.txt \
+    vsHelitrons/mYum_L.1KsampleTEpercents.txt \
+    vsHelitrons/mYum_T.1KsampleTEpercents.txt \
+    vsHelitrons/eFus_T.1KsampleTEpercents.txt \
+    vsHelitrons/aPal_T.1KsampleTEpercents.txt \
+    vsHelitrons/bTau_T.1KsampleTEpercents.txt \
+    vsHelitrons/cFam_T.1KsampleTEpercents.txt \
+    vsHelitrons/fCat_T.1KsampleTEpercents.txt \
+    vsHelitrons/eCab_T.1KsampleTEpercents.txt \
+    vsHelitrons/sScr_T.1KsampleTEpercents.txt \
+    vsHelitrons/eEur_T.1KsampleTEpercents.txt \
+    vsHelitrons/dOrd_T.1KsampleTEpercents.txt \
+    vsHelitrons/sTri_T.1KsampleTEpercents.txt \
+    vsHelitrons/oCun_T.1KsampleTEpercents.txt \
+    >>vsHelitrons/vsHelitrons.tab
 
-echo "aPal\tbTau\tcFam\tdOrd\teCab\teEur\teFus\tfCat\tmOcc_L\tmOcc_t\tmYum_L\tmYum_T\toCun\tsScr\tsStr" >vsDNAs/vsDNAs.tab
-paste vsTEs/*1KsampleTEpercents.txt >>vsDNAs/vsDNAs.tab
+echo -e "mOcc_L\tmOcc_t\tmYum_L\tmYum_T\teFus\taPal\tbTau\tcFam\tfCat\teCab\tsScr\teEur\tdOrd\tsStr\toCun" >vsDNAs/vsDNAs.tab
+paste vsDNAs/mOcc_L.1KsampleTEpercents.txt \
+    vsDNAs/mOcc_T.1KsampleTEpercents.txt \
+    vsDNAs/mYum_L.1KsampleTEpercents.txt \
+    vsDNAs/mYum_T.1KsampleTEpercents.txt \
+    vsDNAs/eFus_T.1KsampleTEpercents.txt \
+    vsDNAs/aPal_T.1KsampleTEpercents.txt \
+    vsDNAs/bTau_T.1KsampleTEpercents.txt \
+    vsDNAs/cFam_T.1KsampleTEpercents.txt \
+    vsDNAs/fCat_T.1KsampleTEpercents.txt \
+    vsDNAs/eCab_T.1KsampleTEpercents.txt \
+    vsDNAs/sScr_T.1KsampleTEpercents.txt \
+    vsDNAs/eEur_T.1KsampleTEpercents.txt \
+    vsDNAs/dOrd_T.1KsampleTEpercents.txt \
+    vsDNAs/sTri_T.1KsampleTEpercents.txt \
+    vsDNAs/oCun_T.1KsampleTEpercents.txt \
+    >>vsDNAs/vsDNAs.tab
 
-echo "aPal\tbTau\tcFam\tdOrd\teCab\teEur\teFus\tfCat\tmOcc_L\tmOcc_t\tmYum_L\tmYum_T\toCun\tsScr\tsStr" >vsHATs/vsHATs.tab
-paste vsTEs/*1KsampleTEpercents.txt >>vsHATs/vsHATs.tab
+echo -e "mOcc_L\tmOcc_t\tmYum_L\tmYum_T\teFus\taPal\tbTau\tcFam\tfCat\teCab\tsScr\teEur\tdOrd\tsStr\toCun" >vsHATs/vsHATs.tab
+paste vsTEs/mOcc_L.1KsampleTEpercents.txt \
+    vsHATs/mOcc_T.1KsampleTEpercents.txt \
+    vsHATs/mYum_L.1KsampleTEpercents.txt \
+    vsHATs/mYum_T.1KsampleTEpercents.txt \
+    vsHATs/eFus_T.1KsampleTEpercents.txt \
+    vsHATs/aPal_T.1KsampleTEpercents.txt \
+    vsHATs/bTau_T.1KsampleTEpercents.txt \
+    vsHATs/cFam_T.1KsampleTEpercents.txt \
+    vsHATs/fCat_T.1KsampleTEpercents.txt \
+    vsHATs/eCab_T.1KsampleTEpercents.txt \
+    vsHATs/sScr_T.1KsampleTEpercents.txt \
+    vsHATs/eEur_T.1KsampleTEpercents.txt \
+    vsHATs/dOrd_T.1KsampleTEpercents.txt \
+    vsHATs/sTri_T.1KsampleTEpercents.txt \
+    vsHATs/oCun_T.1KsampleTEpercents.txt \
+    >>vsHATs/vsHATs.tab
 
 
 #compress then remove replicates
@@ -466,5 +542,5 @@ do
         
 done
 
-
+#all the vs*.tab files were downloaded to local computer to generate R figures.
 
