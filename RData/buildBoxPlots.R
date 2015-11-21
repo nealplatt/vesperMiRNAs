@@ -41,7 +41,7 @@ dev.off()
 #plot vs Helitrons
 svg("vsHelitrons.svg", width=7, height=7)
   boxplot(vsHelitronSim, range=0, las=2, ylim=c(0,0.05))
-  title(main="vs hATs")
+  title(main="vs helitrons")
   points(vsHelitronAct, col="red", pch=19)
 dev.off()
 
