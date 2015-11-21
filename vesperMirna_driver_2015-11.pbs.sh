@@ -455,3 +455,16 @@ paste vsTEs/*1KsampleTEpercents.txt >>vsDNAs/vsDNAs.tab
 
 echo "aPal\tbTau\tcFam\tdOrd\teCab\teEur\teFus\tfCat\tmOcc_L\tmOcc_t\tmYum_L\tmYum_T\toCun\tsScr\tsStr" >vsHATs/vsHATs.tab
 paste vsTEs/*1KsampleTEpercents.txt >>vsHATs/vsHATs.tab
+
+
+#compress then remove replicates
+for (( i = 0; i < ${#BASE[@]}; i++))
+do
+        #add intersect file to archive
+        tar -czf intersect1K.${BASE[$i]}_ALL.tgz intersect.${BASE[$i]}.*
+        rm intersect.${BASE[$i]}.*
+        
+done
+
+
+
