@@ -286,6 +286,59 @@ MIRNA_BED[14]=$RESULTS_DIR/mirnaPreds/mYum_L/result_*5pred.bed
 #	>${BASE[$i]}"_TEvsMirnaInter.bed" &
 #    done
 #
+
+
+#now that the intersections are completed calculate percentages for TEs, DNAs, Helitrons, hATs, and BAR1_MLs
+#calc percentage intersecting BAR1_ML
+
+
+
+for (( i = 0; i < ${#BASE[@]}; i++))
+do
+    printf "${BASE[$i]}\t">>BAR1_ML_ActualTEpercents.txt 
+    printf "${BASE[$i]}\t">>DNA_ActualTEpercents.txt 
+    printf "${BASE[$i]}\t">>TE_ActualTEpercents.txt 
+    printf "${BASE[$i]}\t">>hAT_ActualTEpercents.txt 
+    printf "${BASE[$i]}\t">>helitron_ActualTEpercents.txt 
+
+    
+    MIRNA_COUNT=$(wc -l ${MIRNA_BED[$i]} | cut -f1 -d" ");
+            
+    cut -f13 ${BASE[$i]}"_TEvsMirnaInter.bed" \
+        | grep -i "BAR1_ML" \
+        | wc -l \
+        | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
+        >>BAR1_ML_ActualTEpercents.txt 
+      
+    cut -f13 ${BASE[$i]}"_TEvsMirnaInter.bed" \
+        | grep -i "DNA" \
+        | wc -l \
+        | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
+        >>DNA_ActualTEpercents.txt 
+
+    cut -f13 ${BASE[$i]}"_TEvsMirnaInter.bed" \
+        | grep  -v "\." \
+        | wc -l \
+        | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
+        >>TE_ActualTEpercents.txt 
+
+    cut -f13 ${BASE[$i]}"_TEvsMirnaInter.bed" \
+        | grep -i "hat" \
+        | wc -l \
+        | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
+        >>hAT_ActualTEpercents.txt 
+
+    cut -f13 ${BASE[$i]}"_TEvsMirnaInter.bed" \
+        | grep -i "helitron\|helibat" \
+        | wc -l \
+        | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
+        >>helitron_ActualTEpercents.txt 
+
+done
+
+#data downloaded to local computer to use in R
+
+
 cd $RESULTS_DIR
 #
 #mkdir reShuffle
@@ -361,9 +414,9 @@ do
 
            MIRNA_COUNT=$(wc -l ${MIRNA_BED[$i]} | cut -f1 -d" ");
             cut -f13 ../intersect.${BASE[$i]}.$j \
-                | grep "\." \
+                | grep -v "\." \
                 | wc -l \
-                | awk -v total=$MIRNA_COUNT '{print 1-($0/total)}' \
+                | awk -v total=$MIRNA_COUNT '{print ($0/total)}' \
                 >>${BASE[$i]}.1KsampleTEpercents.txt 
         done &
 
