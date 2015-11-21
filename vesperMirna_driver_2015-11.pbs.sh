@@ -346,6 +346,25 @@ do
 
 done
 
-#calc percentage intersecting TEs
+mkdir vsTEs
+mkdir vsDNA
+mkdir vsHAT
+mkdir vsHelitron
+mkdir vsBAR1_ML
 
+#calc percentage intersecting TEs
+for (( i = 0; i < ${#MIRNA_BED[@]}; i++))
+do
+    for j in $(seq 1 $REPLICATES)
+        do
+
+           MIRNA_COUNT=$(wc -l ${MIRNA_BED[$i]} | cut -f1 -d" ");
+            cut -f13 intersect.${BASE[$i]}.$j \
+                | grep "\." \
+                | wc -l \
+                | awk -v total=$MIRNA_COUNT '{print 1-($0/total)}' \
+                >>vsDNA/${BASE[$i]}.1KsampleTEpercents.txt 
+        done &
+
+done
 
