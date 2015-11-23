@@ -30,11 +30,11 @@ BIN_DIR=$HOME_DIR/bin
  READS[7]=$RESULTS_DIR/qcSeqData/rabbit_T_QC.fq
  READS[8]=$RESULTS_DIR/qcSeqData/squirrel_T_QC.fq
  READS[9]=$RESULTS_DIR/qcSeqData/aPal_T_QC.fq
-READS[10]=$RESULTS_DIR/qcSeqData/eFus_T_QC.fq
+READS[10]=$RESULTS_DIR/qcSeqData/mYum_L_QC.fq
 READS[11]=$RESULTS_DIR/qcSeqData/mOcc_L_QC.fq
 READS[12]=$RESULTS_DIR/qcSeqData/mOcc_T_QC.fq
 READS[13]=$RESULTS_DIR/qcSeqData/mYum_T_QC.fq
-READS[14]=$RESULTS_DIR/qcSeqData/mYum_L_QC.fq
+#READS[10]=$RESULTS_DIR/qcSeqData/eFus_T_QC.fq
 
  GENOME[0]=$RESULTS_DIR/bowtieIndecies/canFam3.fa
  GENOME[1]=$RESULTS_DIR/bowtieIndecies/felCat5.fa
@@ -46,12 +46,11 @@ READS[14]=$RESULTS_DIR/qcSeqData/mYum_L_QC.fq
  GENOME[7]=$RESULTS_DIR/bowtieIndecies/oryCun2.fa
  GENOME[8]=$RESULTS_DIR/bowtieIndecies/speTri2.fa
  GENOME[9]=$RESULTS_DIR/bowtieIndecies/eptFus1.fa
-GENOME[10]=$RESULTS_DIR/bowtieIndecies/eptFus1.fa
+GENOME[10]=$RESULTS_DIR/bowtieIndecies/myoLuc2.fa
 GENOME[11]=$RESULTS_DIR/bowtieIndecies/myoLuc2.fa
 GENOME[12]=$RESULTS_DIR/bowtieIndecies/myoLuc2.fa
 GENOME[13]=$RESULTS_DIR/bowtieIndecies/myoLuc2.fa
-GENOME[14]=$RESULTS_DIR/bowtieIndecies/myoLuc2.fa
-
+#GENOME[10]=$RESULTS_DIR/bowtieIndecies/eptFus1.fa
 
  BASE[0]=cFam_T  
  BASE[1]=fCat_T
@@ -63,11 +62,11 @@ GENOME[14]=$RESULTS_DIR/bowtieIndecies/myoLuc2.fa
  BASE[7]=oCun_T 
  BASE[8]=sTri_T   
  BASE[9]=aPal_T
-BASE[10]=eFus_T
+BASE[10]=mYum_L
 BASE[11]=mOcc_L
 BASE[12]=mOcc_T
 BASE[13]=mYum_T
-BASE[14]=mYum_L
+#BASE[10]=eFus_T
 
 #mkdir /lustre/scratch/roplatt/vesperSmallRNAs/results/mirnaPreds/varyingMapPos
 cd /lustre/scratch/roplatt/vesperSmallRNAs/results/mirnaPreds/varyingMapPos
@@ -98,15 +97,15 @@ do
                 -p ${GENOME[$i]} \
 		        >${BASE[$i]}"_"$j"pred.mapper.log" 2>&1 ;\
       miRDeep2.pl \
-               $TEMP_DIR/${BASE[$i]}"_pos5_mapperProcessed.fa" \
+               $TEMP_DIR/${BASE[$i]}"_pos"$j"_mapperProcessed.fa" \
                ${GENOME[$i]} \
-	           $TEMP_DIR/${BASE[$i]}"_pos5_mapperProcessed.arf" \
+	           $TEMP_DIR/${BASE[$i]}"_pos"$j"_mapperProcessed.arf" \
 	           none \
 	           none \
 	           none \
 	           -z "#"${BASE[$i]}"_"$j"pred" \
 	           -P \
-		       >${BASE[$i]}"_$jpred.miRDeep2.log" 2>&1
+		       >${BASE[$i]}_$j"pred.miRDeep2.log" 2>&1
 	) &     
         cd ..
         
