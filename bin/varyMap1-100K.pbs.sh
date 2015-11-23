@@ -19,7 +19,7 @@ RESULTS_DIR=$HOME_DIR/results
 BIN_DIR=$HOME_DIR/bin
 
 
-#non-bats
+
  READS[0]=$RESULTS_DIR/qcSeqData/dog_T_QC.fq
  READS[1]=$RESULTS_DIR/qcSeqData/cat_T_QC.fq
  READS[2]=$RESULTS_DIR/qcSeqData/cow_T_QC.fq
@@ -36,7 +36,6 @@ READS[12]=$RESULTS_DIR/qcSeqData/mOcc_T_QC.fq
 READS[13]=$RESULTS_DIR/qcSeqData/mYum_T_QC.fq
 READS[14]=$RESULTS_DIR/qcSeqData/mYum_L_QC.fq
 
-#non-bats
  GENOME[0]=$RESULTS_DIR/bowtieIndecies/canFam3.fa
  GENOME[1]=$RESULTS_DIR/bowtieIndecies/felCat5.fa
  GENOME[2]=$RESULTS_DIR/bowtieIndecies/bosTau8.fa
@@ -54,7 +53,6 @@ GENOME[13]=$RESULTS_DIR/bowtieIndecies/myoLuc2.fa
 GENOME[14]=$RESULTS_DIR/bowtieIndecies/myoLuc2.fa
 
 
-#non-bats
  BASE[0]=cFam_T  
  BASE[1]=fCat_T
  BASE[2]=bTau_T
